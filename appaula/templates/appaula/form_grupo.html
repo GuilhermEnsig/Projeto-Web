@@ -1,0 +1,11 @@
+{% extends 'appaula/base.html' %}
+{% block content %}
+<h2>Editar Grupo</h2>
+<form method="post">
+    {% csrf_token %}
+    <label for="nome">Nome do Grupo:</label>
+    <input type="text" name="nome" value="{{ grupo.nome }}" class="form-control mb-2" required>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a href="{% url 'appaula:listar_grupos' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

@@ -35,11 +35,12 @@ class AlocarAlunosForm(forms.Form):
         initial=4
     )
 
-    data_apresentacao = forms.CharField(
-        label='Data de Apresentação (DD/MM/AAAA)',
-        widget=DateInput(),
-        required=True
-    )
+    data_apresentacao = forms.DateField(
+    label='Data de Apresentação',
+    input_formats=['%d/%m/%Y'], 
+    widget=DateInput(),
+    required=True
+)
 
 class GrupoForm(forms.ModelForm):
     class Meta:
@@ -56,6 +57,12 @@ class AlunoForm(forms.ModelForm):
         fields = ['nome', 'matricula']
 
 class TemaForm(forms.ModelForm):
+    data_apresentacao = forms.DateField(
+        input_formats=['%d/%m/%Y'],
+        widget=DateInput(),
+        required=True
+    )
+
     class Meta:
         model = Tema
         fields = [
@@ -67,7 +74,6 @@ class TemaForm(forms.ModelForm):
             'horario_fim'
         ]
         widgets = {
-            'data_apresentacao': DateInput(),
             'horario_inicio': TimeInput(),
             'horario_fim': TimeInput(),
         }

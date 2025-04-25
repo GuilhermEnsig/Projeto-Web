@@ -1,12 +1,39 @@
 {% extends 'appaula/base.html' %}
+
 {% block content %}
 <h2>Temas Cadastrados</h2>
-<a href="{% url 'appaula:cadastrar_tema' %}" class="btn btn-primary">Novo Tema</a>
-<ul>
-    {% for tema in temas %}
-        <li>{{ tema.titulo }} - {{ tema.quantidade_grupos }} grupos com {{ tema.alunos_por_grupo }} alunos</li>
-    {% empty %}
-        <li>Nenhum tema cadastrado ainda.</li>
-    {% endfor %}
-</ul>
+<a href="{% url 'appaula:cadastrar_tema' %}" class="btn btn-primary mb-3">Novo Tema</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Grupos</th>
+            <th>Alunos por Grupo</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tema in temas %}
+        <tr>
+            <td>{{ tema.titulo }}</td>
+            <td>{{ tema.quantidade_grupos }}</td>
+            <td>{{ tema.alunos_por_grupo }}</td>
+            <td>
+                <a href="{% url 'appaula:editar_tema' tema.id %}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="{% url 'appaula:excluir_tema' tema.id %}" class="btn btn-sm btn-danger"
+                   onclick="return confirm('Tem certeza que deseja excluir este tema?');">Excluir</a>
+                <a href="{% url 'appaula:executar_grupos' tema.id %}" class="btn btn-sm btn-success"
+                   onclick="return confirm('Deseja gerar os grupos e ordem de apresentação para este tema?');">
+                   Gerar Grupos
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">Nenhum tema cadastrado ainda.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

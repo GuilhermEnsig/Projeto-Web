@@ -10,14 +10,15 @@ class Aluno(models.Model):
         return f"{self.nome} ({self.matricula})"
 
 class Grupo(models.Model):
+    tema = models.ForeignKey('Tema', on_delete=models.CASCADE, null=True, blank=True)  # <-- ADICIONE ISSO
     nome = models.CharField('Nome do Grupo', max_length=50)
     data_apresentacao = models.CharField('Data (DD/MM/AAAA)', max_length=10, blank=True)
     hora_apresentacao = models.CharField('Hora (HH:MM)', max_length=5, blank=True)
     ordem_apresentacao = models.PositiveIntegerField('Ordem', null=True, blank=True)
-    
+
     class Meta:
         ordering = ['ordem_apresentacao']
-    
+
     def __str__(self):
         return f"{self.nome} - Ordem: {self.ordem_apresentacao}"
 
@@ -39,3 +40,4 @@ class Tema(models.Model):
 
     def __str__(self):
         return self.titulo
+

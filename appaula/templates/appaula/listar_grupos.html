@@ -1,26 +1,54 @@
 {% extends 'appaula/base.html' %}
 
 {% block content %}
-<h2>Grupos de Apresentação</h2>
+<h2>Grupos Gerados</h2>
 
-{% if grupos %}
-    {% for grupo in grupos %}
-    <div class="card my-3">
-        <div class="card-header">
-            <strong>{{ grupo.nome }}</strong> — Ordem: {{ grupo.ordem_apresentacao }}
-        </div>
-        <div class="card-body">
-            <p><strong>Data:</strong> {{ grupo.data_apresentacao }}</p>
-            <p><strong>Hora:</strong> {{ grupo.hora_apresentacao }}</p>
-            <ul>
-                {% for membro in grupo.membrogrupo_set.all %}
-                    <li>{{ membro.aluno.nome }}{% if membro.lider %} (Líder){% endif %}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    {% endfor %}
-{% else %}
-    <p>Nenhum grupo criado ainda.</p>
-{% endif %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nome do Grupo</th>
+            <th>Ordem</th>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Membros</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for grupo in grupos %}
+        <tr>
+            <td>{{ grupo.nome }}</td>
+            <td>{{ grupo.ordem_apresentacao }}</td>
+            <td>{{ grupo.data_apresentacao }}</td>
+            <td>{{ grupo.hora_apresentacao }}</td>
+            <td>
+                <ul class="mb-0">
+                    {% for membro in grupo.membrogrupo_set.all %}
+                        <li>
+                            {{ membro.aluno.nome }}
+                            {% if membro.lider %}
+                                <strong>(Líder)</strong>
+                            {% endif %}
+                        </li>
+                    {% empty %}
+                        <li>Nenhum membro</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                <a href="{% url 'appaula:editar_grupo' grupo.id %}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="{% url 'appaula:completar_grupo' grupo.id %}" class="btn btn-sm btn-info">
+                    Completar automaticamente
+                </a>
+                <a href="{% url 'appaula:excluir_grupo' grupo.id %}" class="btn btn-sm btn-danger"
+                   onclick="return confirm('Tem certeza que deseja excluir este grupo?');">Excluir</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">Nenhum grupo gerado ainda.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

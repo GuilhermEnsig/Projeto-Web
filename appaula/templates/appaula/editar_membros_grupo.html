@@ -1,0 +1,35 @@
+{% extends 'appaula/base.html' %}
+
+{% block content %}
+<h2>Editar Membros - {{ grupo.nome }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <h4>Membros Atuais</h4>
+    <ul>
+        {% for membro in membros %}
+        <li>
+            <label>
+                <input type="checkbox" name="remover" value="{{ membro.id }}">
+                {{ membro.aluno.nome }} (Remover)
+            </label>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h4>Alunos Disponíveis</h4>
+    <ul>
+        {% for aluno in alunos_disponiveis %}
+        <li>
+            <label>
+                <input type="checkbox" name="adicionar" value="{{ aluno.id }}">
+                {{ aluno.nome }}
+            </label>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <button type="submit" class="btn btn-success">Salvar Alterações</button>
+    <a href="{% url 'appaula:listar_grupos' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

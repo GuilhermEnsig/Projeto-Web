@@ -3,7 +3,6 @@
 {% block content %}
 <h2>Lista de Alunos</h2>
 
-<!-- Botão para cadastrar novo aluno -->
 <a href="{% url 'appaula:cadastrar_aluno' %}" class="btn btn-primary mb-3">Novo Aluno</a>
 
 <table class="table table-striped">
@@ -12,6 +11,8 @@
             <th>Nome</th>
             <th>Matrícula</th>
             <th>Data Cadastro</th>
+            <th>Status</th>  <!-- NOVA COLUNA -->
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
@@ -20,6 +21,18 @@
             <td>{{ aluno.nome }}</td>
             <td>{{ aluno.matricula }}</td>
             <td>{{ aluno.data_cadastro|date:"d/m/Y" }}</td>
+            <td>
+                {% if aluno.membrogrupo_set.exists %}
+                    <span class="badge bg-success">✅ Alocado</span>
+                {% else %}
+                    <span class="badge bg-secondary">❌ Não alocado</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'appaula:editar_aluno' aluno.id %}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="{% url 'appaula:excluir_aluno' aluno.id %}" class="btn btn-sm btn-danger"
+                   onclick="return confirm('Tem certeza que deseja excluir este aluno?');">Excluir</a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
