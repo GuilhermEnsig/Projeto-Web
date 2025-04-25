@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Criar Grupo Manualmente</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.nome.label_tag }}
+        {{ form.nome }}
+    </div>
+    <div class="form-group">
+        {{ form.data_apresentacao.label_tag }}
+        {{ form.data_apresentacao }}
+        <small class="form-text text-muted">Formato: DD/MM/AAAA</small>
+    </div>
+    <div class="form-group">
+        {{ form.hora_apresentacao.label_tag }}
+        {{ form.hora_apresentacao }}
+        <small class="form-text text-muted">Formato: HH:MM (24 horas)</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar Grupo</button>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Máscara para data
+    const dataInput = document.querySelector('[name="data_apresentacao"]');
+    dataInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 2) value = value.substring(0, 2) + '/' + value.substring(2);
+        if (value.length > 5) value = value.substring(0, 5) + '/' + value.substring(5, 9);
+        e.target.value = value;
+    });
+    
+    // Máscara para hora
+    const horaInput = document.querySelector('[name="hora_apresentacao"]');
+    horaInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 2) value = value.substring(0, 2) + ':' + value.substring(2, 4);
+        e.target.value = value;
+    });
+});
+</script>
+{% endblock %}

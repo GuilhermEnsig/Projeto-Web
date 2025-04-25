@@ -1,0 +1,27 @@
+{% extends 'appaula/base.html' %}
+
+{% block content %}
+<h2>Lista de Alunos</h2>
+
+<!-- Botão para cadastrar novo aluno -->
+<a href="{% url 'appaula:cadastrar_aluno' %}" class="btn btn-primary mb-3">Novo Aluno</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Matrícula</th>
+            <th>Data Cadastro</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for aluno in alunos %}
+        <tr>
+            <td>{{ aluno.nome }}</td>
+            <td>{{ aluno.matricula }}</td>
+            <td>{{ aluno.data_cadastro|date:"d/m/Y" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

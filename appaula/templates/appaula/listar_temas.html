@@ -1,0 +1,12 @@
+{% extends 'appaula/base.html' %}
+{% block content %}
+<h2>Temas Cadastrados</h2>
+<a href="{% url 'appaula:cadastrar_tema' %}" class="btn btn-primary">Novo Tema</a>
+<ul>
+    {% for tema in temas %}
+        <li>{{ tema.titulo }} - {{ tema.quantidade_grupos }} grupos com {{ tema.alunos_por_grupo }} alunos</li>
+    {% empty %}
+        <li>Nenhum tema cadastrado ainda.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

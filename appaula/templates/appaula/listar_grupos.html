@@ -1,0 +1,26 @@
+{% extends 'appaula/base.html' %}
+
+{% block content %}
+<h2>Grupos de Apresentação</h2>
+
+{% if grupos %}
+    {% for grupo in grupos %}
+    <div class="card my-3">
+        <div class="card-header">
+            <strong>{{ grupo.nome }}</strong> — Ordem: {{ grupo.ordem_apresentacao }}
+        </div>
+        <div class="card-body">
+            <p><strong>Data:</strong> {{ grupo.data_apresentacao }}</p>
+            <p><strong>Hora:</strong> {{ grupo.hora_apresentacao }}</p>
+            <ul>
+                {% for membro in grupo.membrogrupo_set.all %}
+                    <li>{{ membro.aluno.nome }}{% if membro.lider %} (Líder){% endif %}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>Nenhum grupo criado ainda.</p>
+{% endif %}
+{% endblock %}
